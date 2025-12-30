@@ -1,0 +1,69 @@
+[project]
+name = "llm-tool-runtime"
+version = "0.1.0"
+description = "Tool calling runtime for text-only LLMs with LangChain support"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+authors = [
+    { name = "Your Name", email = "your.email@example.com" }
+]
+keywords = ["llm", "tool-calling", "langchain", "ai", "agents"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+dependencies = []
+
+[project.optional-dependencies]
+langchain = [
+    "langchain-core>=1.2.5",
+]
+google = [
+    "langchain-google-genai>=4.1.2",
+]
+openai = [
+    "langchain-openai>=1.1.6",
+]
+ollama = [
+    "langchain-ollama>=1.0.1",
+]
+all = [
+    "langchain-core>=1.2.5",
+    "langchain-google-genai>=4.1.2",
+    "langchain-openai>=1.1.6",
+    "langchain-ollama>=1.0.1",
+]
+dev = [
+    "pytest>=9.0.2",
+    "pytest-cov>=7.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/llm-tool-runtime"
+Documentation = "https://github.com/yourusername/llm-tool-runtime#readme"
+Repository = "https://github.com/yourusername/llm-tool-runtime"
+
+[build-system]
+requires = ["setuptools>=75.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["llm_tool_runtime*"]
+exclude = ["tests*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
