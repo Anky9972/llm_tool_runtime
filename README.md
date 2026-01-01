@@ -24,7 +24,7 @@ A lightweight, **model-agnostic** tool calling runtime for text-only LLMs. Works
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/llm-tool-runtime.git
+git clone https://github.com/Anky9972/llm_tool_runtime.git
 cd llm-tool-runtime
 
 # Create virtual environment
@@ -392,7 +392,7 @@ ANTHROPIC_API_KEY=your-anthropic-api-key
 
 ```bash
 # Clone your fork
-git clone https://github.com/YOUR_USERNAME/llm-tool-runtime.git
+git clone https://github.com/Anky9972/llm_tool_runtime.git
 cd llm-tool-runtime
 
 # Create virtual environment
@@ -423,8 +423,8 @@ MIT License - see [LICENSE](LICENSE) file.
 
 ## 📬 Support
 
-- 🐛 **Bug Reports**: [Open an issue](https://github.com/yourusername/llm-tool-runtime/issues)
-- 💡 **Feature Requests**: [Open an issue](https://github.com/yourusername/llm-tool-runtime/issues)
+- 🐛 **Bug Reports**: [Open an issue](https://github.com/Anky9972/llm-tool-runtime/issues)
+- 💡 **Feature Requests**: [Open an issue](https://github.com/Anky9972/llm-tool-runtime/issues)
 - 📧 **Contact**: ankygaur9972@gmail.com
 
 ---
