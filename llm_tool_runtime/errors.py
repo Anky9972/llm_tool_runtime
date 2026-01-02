@@ -37,7 +37,8 @@ class MaxRetriesExceededError(ToolRuntimeError):
     def __init__(self, max_retries: int, last_error: str = None):
         self.max_retries = max_retries
         self.last_error = last_error
-        msg = f"Operation failed after {max_retries} attempts"
+        # Use more generic wording
+        msg = f"Operation failed after {max_retries} steps/attempts"
         if last_error:
             msg += f". Last error: {last_error}"
         super().__init__(msg)

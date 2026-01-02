@@ -127,5 +127,5 @@ def test_invalid_history_format():
 def test_max_retries_error_includes_last_error():
     """Test MaxRetriesExceededError includes last error info."""
     error = MaxRetriesExceededError(3, last_error="Connection timeout")
-    assert "3 attempts" in str(error)
+    assert "3 steps/attempts" in str(error)
     assert "Connection timeout" in str(error)

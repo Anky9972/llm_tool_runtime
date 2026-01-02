@@ -47,7 +47,8 @@ class ToolRuntime:
     def __init__(
         self, 
         llm: Union[Callable[[str, str], str], Any],
-        max_retries: int = 3,
+        max_steps: int = 5,
+        max_retries: Optional[int] = None,
         verbose: bool = False
     ):
         """
@@ -55,7 +56,8 @@ class ToolRuntime:
         
         Args:
             llm: Either a callable (system, user) -> str, or a LangChain model
-            max_retries: Maximum number of tool call attempts before failing
+            max_steps: Maximum number of steps (tool calls) in a chain. Defaults to 5.
+            max_retries: Legacy parameter, alias for max_steps.
             verbose: If True, print debug information
             
         Raises:
@@ -71,7 +73,8 @@ class ToolRuntime:
         
         self.llm = llm
         self.registry = ToolRegistry()
-        self.max_retries = max(1, max_retries)  # At least 1 attempt
+        # Use max_retries if provided (backward compatibility), else max_steps
+        self.max_steps = max(1, max_retries if max_retries is not None else max_steps)
         self.verbose = verbose
         self._is_langchain = self._check_langchain_model(llm)
         self._use_combined_prompt = False  # Track if we need to skip system messages
@@ -203,25 +206,27 @@ class ToolRuntime:
                 print("Warning: No tools registered. LLM will respond without tool access.")
         
         system_prompt = build_system_prompt(self.registry.tools)
-        current_prompt = user_prompt.strip()
+        # We start with the user prompt
+        current_conversation = f"User: {user_prompt.strip()}"
         last_error = None
 
-        for attempt in range(self.max_retries):
+        for step in range(self.max_steps):
             if self.verbose:
-                print(f"\n[Attempt {attempt + 1}/{self.max_retries}]")
-                print(f"User prompt: {current_prompt[:100]}...")
+                print(f"\n[Step {step + 1}/{self.max_steps}]")
+                # print(f"Context length: {len(current_conversation)} chars")
 
             try:
-                output = self._call_llm(system_prompt, current_prompt)
+                # For models that need system instructions, we pass them separately
+                # For our internal history, we just append to the string
+                output = self._call_llm(system_prompt, current_conversation)
             except (InvalidAPIKeyError, RateLimitError, LLMConnectionError):
-                # Don't retry these errors - they need user intervention
                 raise
             except Exception as e:
                 last_error = str(e)
                 if self.verbose:
                     print(f"LLM call error: {e}")
-                if attempt == self.max_retries - 1:
-                    raise LLMConnectionError(f"LLM call failed after {self.max_retries} attempts: {e}", e)
+                if step == self.max_steps - 1:
+                    raise LLMConnectionError(f"LLM call failed after {self.max_steps} steps: {e}", e)
                 continue
             
             if self.verbose:
@@ -230,59 +235,63 @@ class ToolRuntime:
             call = parse_tool_call(output)
 
             if not call:
-                # No tool call, return the response
+                # No tool call means the LLM is done and giving a final answer
                 if self.verbose:
                     print("No tool call detected, returning response")
                 return output
 
+            # We found a tool call!
             tool_name = call["name"]
             tool_args = call["arguments"]
             
             if self.verbose:
                 print(f"Tool call: {tool_name}({tool_args})")
 
+            # Append LLM's thought/tool call to conversation context
+            # (Note: In a more advanced implementation, we'd distinguish between
+            # thought trace and exact tool call syntax, but for text-only 
+            # runtime, we just append the output)
+            current_conversation += f"\n\nAssistant: {output}"
+
             try:
+                # Execute the tool
                 tool = self.registry.get(tool_name)
                 result = tool.call(tool_args)
                 
                 if self.verbose:
                     print(f"Tool result: {result}")
                 
-                # Build the next prompt with tool result
-                current_prompt = build_tool_result_prompt(tool_name, str(result))
+                # Append result to conversation
+                current_conversation += f"\n\nTool '{tool_name}' result:\n{result}"
+                
+                # Now loop back to let LLM see the result and decide next step
+                continue
                 
             except ToolNotFoundError as e:
                 if self.verbose:
                     print(f"Tool not found: {e}")
-                # Tell the LLM the tool doesn't exist
                 available = self.registry.list_tools()
-                current_prompt = (
+                error_msg = (
                     f"Error: Tool '{tool_name}' does not exist. "
-                    f"Available tools are: {', '.join(available) if available else 'none'}. "
-                    f"Please try again with a valid tool or respond without using tools."
+                    f"Available tools: {', '.join(available) if available else 'none'}."
                 )
+                current_conversation += f"\n\nSystem: {error_msg}"
                 last_error = str(e)
                 
             except ToolRuntimeError as e:
                 if self.verbose:
                     print(f"Tool error: {e}")
-                # Include error in next prompt for LLM to handle
-                current_prompt = (
-                    f"Error calling tool '{tool_name}': {e}\n\n"
-                    f"Please try a different approach or respond without using tools."
-                )
+                current_conversation += f"\n\nSystem: Error calling tool '{tool_name}': {e}"
                 last_error = str(e)
                 
             except Exception as e:
                 if self.verbose:
                     print(f"Unexpected tool error: {e}")
-                current_prompt = (
-                    f"Unexpected error with tool '{tool_name}': {e}\n\n"
-                    f"Please respond without using this tool."
-                )
+                current_conversation += f"\n\nSystem: Unexpected error with tool '{tool_name}': {e}"
                 last_error = str(e)
 
-        raise MaxRetriesExceededError(self.max_retries, last_error)
+        # If we exit the loop, we ran out of steps
+        raise MaxRetriesExceededError(self.max_steps, last_error)
 
     def run_safe(self, user_prompt: str, default: str = "I encountered an error processing your request.") -> str:
         """

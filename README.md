@@ -24,7 +24,7 @@ A lightweight, **model-agnostic** tool calling runtime for text-only LLMs. Works
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/llm-tool-runtime.git
+git clone https://github.com/Anky9972/llm_tool_runtime.git
 cd llm-tool-runtime
 
 # Create virtual environment
@@ -194,6 +194,42 @@ response, history = runtime.run_with_history("What's 5 + 3?", history)
 
 response, history = runtime.run_with_history("Multiply that by 2", history)
 # Uses context from previous exchange
+```
+
+---
+
+## 🤖 Multi-Step Chaining (Agents)
+
+Turn your LLM into an autonomous agent that can "think" through problems. The runtime supports **multi-step execution loops** (ReAct pattern), allowing the model to call tools, see the results, and then decide the next action.
+
+### How to Enable
+Simply set `max_steps` when initializing the runtime (default is 5).
+
+```python
+# Allow up to 10 sequential tool calls
+runtime = ToolRuntime(llm, max_steps=10)
+```
+
+### Example: Researcher Agent
+The model needs to find a ticker symbol first, then use it to check the price.
+
+```python
+@runtime.tool
+def find_ticker(company: str) -> str:
+    """Finds the stock symbol for a company."""
+    if "apple" in company.lower(): return "AAPL"
+    return "UNKNOWN"
+
+@runtime.tool
+def get_price(ticker: str) -> float:
+    """Gets the current price for a ticker."""
+    if ticker == "AAPL": return 185.50
+    return 0.0
+
+# User asks complex question
+# Runtime automatically does: find_ticker("apple") -> "AAPL" -> get_price("AAPL") -> 185.50
+answer = runtime.run_safe("How much is Apple's stock?")
+print(answer) # "Apple's stock is currently $185.50."
 ```
 
 ---
@@ -392,7 +428,7 @@ ANTHROPIC_API_KEY=your-anthropic-api-key
 
 ```bash
 # Clone your fork
-git clone https://github.com/YOUR_USERNAME/llm-tool-runtime.git
+git clone https://github.com/Anky9972/llm_tool_runtime.git
 cd llm-tool-runtime
 
 # Create virtual environment
@@ -423,9 +459,9 @@ MIT License - see [LICENSE](LICENSE) file.
 
 ## 📬 Support
 
-- 🐛 **Bug Reports**: [Open an issue](https://github.com/yourusername/llm-tool-runtime/issues)
-- 💡 **Feature Requests**: [Open an issue](https://github.com/yourusername/llm-tool-runtime/issues)
-- 📧 **Contact**: your.email@example.com
+- 🐛 **Bug Reports**: [Open an issue](https://github.com/Anky9972/llm-tool-runtime/issues)
+- 💡 **Feature Requests**: [Open an issue](https://github.com/Anky9972/llm-tool-runtime/issues)
+- 📧 **Contact**: ankygaur9972@gmail.com
 
 ---
 
