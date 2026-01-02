@@ -1,6 +1,6 @@
 [project]
 name = "llm-tool-runtime"
-version = "0.1.0"
+version = "0.1.2"
 description = "Tool calling runtime for text-only LLMs with LangChain support"
 readme = "README_PYPI.md"
 license = { text = "MIT" }
