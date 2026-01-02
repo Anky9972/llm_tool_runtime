@@ -2,7 +2,7 @@
 name = "llm-tool-runtime"
 version = "0.1.0"
 description = "Tool calling runtime for text-only LLMs with LangChain support"
-readme = "README.md"
+readme = "README_PYPI.md"
 license = { text = "MIT" }
 requires-python = ">=3.12"
 authors = [
