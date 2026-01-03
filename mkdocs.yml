@@ -40,9 +40,8 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
-          setup_commands:
-            - import sys
-            - sys.path.append(".") # Points to your code
+          options:
+            docstring_style: google
 
 nav:
   - Home: index.md
@@ -53,5 +52,5 @@ extra:
   - icon: fontawesome/brands/github
     link: https://github.com/Anky9972
   generator: false
-  
+
 copyright: "Copyright © 2026 Vivek Gaur"
