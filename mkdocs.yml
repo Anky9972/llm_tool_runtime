@@ -1,0 +1,57 @@
+site_name: llm_tool_runtime  # Change to your package name
+site_url: https://Anky9972.github.io/llm_tool_runtime/
+
+theme:
+  name: material
+  features:
+    - search.highlight
+    - search.suggest
+    - toc.integrated
+    - content.code.copy
+    - content.code.highlight
+
+  palette:
+    # Auto mode (follows system)
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: cyan
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: cyan
+      toggle:
+        icon: material/weather-night
+        name: Switch to system preference
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          setup_commands:
+            - import sys
+            - sys.path.append(".") # Points to your code
+
+nav:
+  - Home: index.md
+  - Core Functions: reference.md # We will create this next
+
+extra:
+  social:
+  - icon: fontawesome/brands/github
+    link: https://github.com/Anky9972
+  generator: false
+  
+copyright: "Copyright © 2026 Vivek Gaur"

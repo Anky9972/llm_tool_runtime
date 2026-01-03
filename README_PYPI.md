@@ -76,7 +76,7 @@ Contributions are welcome! Please see the [main README](https://github.com/Anky9
 
 ## License
 
-This project is licensed under the terms of the MIT License. See the LICENSE file for details.
+This project is licensed under the terms of the [MIT License](https://github.com/Anky9972/llm_tool_runtime/blob/main/LICENSE). See the LICENSE file for details.
 
 ## Support
 
