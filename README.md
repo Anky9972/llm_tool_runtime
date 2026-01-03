@@ -44,11 +44,14 @@ pip install -e ".[ollama]"           # Ollama (local models)
 pip install -e ".[all]"              # All providers
 ```
 
-### From PyPI (Coming Soon)
-
+### From PyPI
+## Install package using `pip`:
 ```bash
 pip install llm-tool-runtime
-pip install llm-tool-runtime[google]  # With Google support
+```
+## Or install using `uv`:
+```bash
+uv add llm-tool-runtime
 ```
 
 ---
