@@ -459,8 +459,8 @@ MIT License - see [LICENSE](LICENSE) file.
 
 ## 📬 Support
 
-- 🐛 **Bug Reports**: [Open an issue](https://github.com/Anky9972/llm-tool-runtime/issues)
-- 💡 **Feature Requests**: [Open an issue](https://github.com/Anky9972/llm-tool-runtime/issues)
+- 🐛 **Bug Reports**: [Open an issue](https://github.com/Anky9972/llm_tool_runtime/issues)
+- 💡 **Feature Requests**: [Open an issue](https://github.com/Anky9972/llm_tool_runtime/issues)
 - 📧 **Contact**: ankygaur9972@gmail.com
 
 ---

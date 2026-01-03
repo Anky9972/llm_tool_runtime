@@ -45,7 +45,17 @@ Import and use the runtime in your Python code:
 
 ```python
 from llm_tool_runtime import ToolRuntime
-# ... use runtime to register and call tools ...
+from langchain_google_genai import ChatGoogleGenerativeAI
+llm = ChatGoogleGenerativeAI(model="gemma-3-27b-it")
+runtime = ToolRuntime(llm, verbose=True)
+
+@runtime.tool
+def add(a: int, b: int) -> int:
+    """Add two numbers together."""
+    return a + b
+
+result = runtime.run("What is 15 + 27?")
+print(result)  # "The result of 15 + 27 is 42."
 ```
 
 See [example.py](https://github.com/Anky9972/llm_tool_runtime/blob/main/example.py) and [example_chain.py](https://github.com/Anky9972/llm_tool_runtime/blob/main/example_chain.py) for usage examples.

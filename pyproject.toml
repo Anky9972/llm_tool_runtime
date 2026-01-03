@@ -1,19 +1,19 @@
 [project]
 name = "llm-tool-runtime"
-version = "0.1.2"
+version = "0.1.4"
 description = "Tool calling runtime for text-only LLMs with LangChain support"
 readme = "README_PYPI.md"
 license = { text = "MIT" }
 requires-python = ">=3.12"
 authors = [
-    { name = "Your Name", email = "your.email@example.com" }
+    { name = "Vivek Gaur", email = "ankygaur9972@gmail.com" },
+    { name = "Ashish Kumar Dwivedi", email = "adpassward709@gmail.com" },
 ]
 keywords = ["llm", "tool-calling", "langchain", "ai", "agents"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -52,9 +52,9 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/Anky9972/llm-tool-runtime"
-Documentation = "https://github.com/Anky9972/llm-tool-runtime#readme"
-Repository = "https://github.com/Anky9972/llm-tool-runtime"
+Homepage = "https://github.com/Anky9972/llm_tool_runtime"
+Documentation = "https://github.com/Anky9972/llm_tool_runtime#readme"
+Repository = "https://github.com/Anky9972/llm_tool_runtime"
 
 [build-system]
 requires = ["setuptools>=75.0.0", "wheel"]
