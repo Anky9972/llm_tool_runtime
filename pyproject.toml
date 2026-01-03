@@ -1,6 +1,6 @@
 [project]
 name = "llm-tool-runtime"
-version = "0.1.4"
+version = "0.1.5"
 description = "Tool calling runtime for text-only LLMs with LangChain support"
 readme = "README_PYPI.md"
 license = { text = "MIT" }
@@ -53,7 +53,7 @@ dev = [
 
 [project.urls]
 Homepage = "https://github.com/Anky9972/llm_tool_runtime"
-Documentation = "https://github.com/Anky9972/llm_tool_runtime#readme"
+Documentation = "https://anky9972.github.io/llm_tool_runtime/"
 Repository = "https://github.com/Anky9972/llm_tool_runtime"
 
 [build-system]
